@@ -14,9 +14,8 @@ export default class CalendarBoard extends Component {
         daysInBoard: PropTypes.number.isRequired,
     };
 
-    // TODO
     getTable = () => {
-        const { daysInBoard, currentDay, week, moveDay } = this.props;
+        const { daysInBoard, currentDay, moveDay } = this.props;
 
         return (
             <div className="divTable">
@@ -25,7 +24,7 @@ export default class CalendarBoard extends Component {
                     {
                         range(daysInBoard).map(i => <div className="divTableCell" key={i}>
                             <p>
-                                {daysInBoard === 1 ? currentDay : moment().day(i + 1 + week + moveDay).format("dd Do MMM YY")}
+                                {daysInBoard === 1 ? currentDay : moment().day(i + 1 + moveDay).format("dd Do MMM YY")}
                             </p>
                         </div>)
                     }
@@ -46,45 +45,46 @@ export default class CalendarBoard extends Component {
     };
 
     currentTimePosition = () => {
-        const hours = parseFloat(moment().format('HH'));
-        const minutes = parseFloat(moment().format('mm'));
+        const now = moment();
+        const hours = parseFloat(now.format('HH'));
+        const minutes = parseFloat(now.format('mm'));
         return hours + minutes / 60;
     };
 
     render() {
-        const { data, daysInBoard, week, moveDay } = this.props;
+        const { data, daysInBoard, moveDay } = this.props;
 
         let todayEvents = (currentDay) => groupBy(data.filter(dataObject => {
             return moment(dataObject.startDate).format("dd Do MMM YY") === currentDay
         }), 'startDate');
 
-        // Get rid of hardcore
-        const Table = <div  className="relativeTable">
-            {this.getTable()}
-            {
-                range(daysInBoard).map(
-                    (day, index) => <DayEvents
-                        key={day}
-                        currentDayEvents={
-                            this.props.daysInBoard > 1
-                            ?
-                            todayEvents(moment().day(day+1+week+moveDay).format("dd Do MMM YY"))
-                            :
-                            todayEvents(this.props.currentDay)
-                        }
-                        day={index}
-                        daysInBoard={this.props.daysInBoard}
-                    />
-                )
-            }
-            <hr className="currentTime" style={{top: 40 + (this.currentTimePosition() * 1440 / 24)}}/>
-        </div>;
+        const table = (
+            <div  className="relativeTable">
+                {this.getTable()}
+                {
+                    range(daysInBoard).map(
+                        (day, index) => <DayEvents
+                            key={day}
+                            currentDayEvents={
+                                this.props.daysInBoard > 1
+                                ?
+                                todayEvents(moment().day(day+1+moveDay).format("dd Do MMM YY"))
+                                :
+                                todayEvents(this.props.currentDay)
+                            }
+                            day={index}
+                            daysInBoard={this.props.daysInBoard}
+                        />
+                    )
+                }
+                <hr className="currentTime" style={{top: 40 + (this.currentTimePosition() * 1440 / 24)}}/>
+            </div>
+        );
 
         return (
             <div className="main-board">
                 <div className="main-container">
-
-                    {Table}
+                    {table}
                 </div>
             </div>
         );
