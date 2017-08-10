@@ -1,0 +1,9 @@
+.currentDayEvents{
+    position: absolute;
+    top: 0;
+}
+.currentDayEventContainer{
+    position: absolute;
+    top:0;
+    width: 100%;
+}

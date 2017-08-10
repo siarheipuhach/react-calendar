@@ -1,0 +1,11 @@
+.addEventForm{
+    margin: auto;
+    width: 240px;
+}
+.addEventForm div div div div div table{
+    margin: auto;
+}
+
+.addEventForm div div div div div table:hover{
+    cursor: pointer;
+}

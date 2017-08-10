@@ -1,0 +1,17 @@
+.eventContainer{
+    position: absolute;
+    right: 0;
+    width: 93%;
+    display: flex;
+    vertical-align: middle;
+    flex-direction: row;
+    justify-content: flex-start;
+    border-radius: 10px;
+    border: 1px solid dimgrey;
+}
+.eventContainer p{
+    margin: 5px;
+}
+.eventName{
+    font-size: 0.8em;
+}
