@@ -44,6 +44,10 @@ export default class CalendarBoard extends Component {
         );
     };
 
+    todayEvents = currentDay => groupBy(this.props.data.filter(dataObject => {
+        return moment(dataObject.startDate).format("dd Do MMM YY") === currentDay
+    }), 'startDate');
+
     currentTimePosition = () => {
         const now = moment();
         const hours = parseFloat(now.format('HH'));
@@ -52,11 +56,7 @@ export default class CalendarBoard extends Component {
     };
 
     render() {
-        const { data, daysInBoard, moveDay } = this.props;
-
-        let todayEvents = (currentDay) => groupBy(data.filter(dataObject => {
-            return moment(dataObject.startDate).format("dd Do MMM YY") === currentDay
-        }), 'startDate');
+        const { daysInBoard, moveDay, currentDay } = this.props;
 
         const table = (
             <div  className="relativeTable">
@@ -66,14 +66,14 @@ export default class CalendarBoard extends Component {
                         (day, index) => <DayEvents
                             key={day}
                             currentDayEvents={
-                                this.props.daysInBoard > 1
+                                daysInBoard > 1
                                 ?
-                                todayEvents(moment().day(day+1+moveDay).format("dd Do MMM YY"))
+                                this.todayEvents(moment().day(day+1+moveDay).format("dd Do MMM YY"))
                                 :
-                                todayEvents(this.props.currentDay)
+                                this.todayEvents(currentDay)
                             }
                             day={index}
-                            daysInBoard={this.props.daysInBoard}
+                            daysInBoard={daysInBoard}
                         />
                     )
                 }

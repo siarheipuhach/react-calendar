@@ -22,24 +22,11 @@ class App extends Component {
     };
 
     changeMoveDay(value){
-        this.setState({moveDay: this.state.moveDay + value})
-    }
-
-    nextDay(){
         if (this.state.daysInBoard === 1){
-            let currentDay = this.state.currentDay.add(1, 'days');
+            let currentDay = this.state.currentDay.add(value, 'days');
             this.setState({currentDay})
-        }else if(this.state.daysInBoard === 4){
-            this.setState({moveDay: this.state.moveDay + 1})
-        }
-    }
-
-    prevDay(){
-        if (this.state.daysInBoard === 1){
-            let currentDay = this.state.currentDay.subtract(1, 'days');
-            this.setState({currentDay});
-        }else if(this.state.daysInBoard === 4){
-            this.setState({moveDay: this.state.moveDay - 1})
+        }else if(this.state.daysInBoard !== 1){
+            this.setState({moveDay: this.state.moveDay + value})
         }
     }
 
@@ -49,7 +36,7 @@ class App extends Component {
     };
 
     render() {
-        const { currentDay, daysInBoard, moveDay } = this.state;
+        const { currentDay, daysInBoard, moveDay, eventFormOpened } = this.state;
         const { events } = this.props;
 
         return (
@@ -65,25 +52,25 @@ class App extends Component {
                         bsStyle="primary"
                         bsSize="large"
                         onClick={()=>this.setState({eventFormOpened: true})}
-                        style={this.state.eventFormOpened ? {display: 'none'} : {}}
+                        style={eventFormOpened ? {display: 'none'} : {}}
                     >
                         Add event
                     </Button>
                     <Button
-                        bsStyle="primary" style={this.state.eventFormOpened ? {} : {display: 'none'}}
+                        bsStyle="danger" style={eventFormOpened ? {} : {display: 'none'}}
                         onClick={()=>this.setState({eventFormOpened: false})}>
                         Close form
                     </Button>
-                    <div style={this.state.eventFormOpened ? {} : {display: 'none'}}>
+                    <div style={eventFormOpened ? {} : {display: 'none'}}>
                         <EventForm onSubmit={this.submit}/>
                     </div>
                 </div>
                 <Button bsStyle="primary" onClick={()=> this.setState({daysInBoard: 7})}>Week</Button>
-                <Button bsStyle="primary" onClick={()=> this.setState({ daysInBoard: 1})}>Day</Button>
+                <Button bsStyle="primary" onClick={()=> this.setState({daysInBoard: 1})}>Day</Button>
                 <Button bsStyle="primary" onClick={()=> this.setState({daysInBoard: 4})}>4 days</Button>
                 <div style={daysInBoard < 7  ? {} : {display: 'none'}}>
-                    <Button bsStyle="primary" className="prevButton" onClick={()=>this.prevDay()}>Prev day</Button>
-                    <Button bsStyle="primary" className="nextButton" onClick={()=>this.nextDay()}>Next day</Button>
+                    <Button bsStyle="primary" className="prevButton" onClick={()=>this.changeMoveDay(-1)}>Prev day</Button>
+                    <Button bsStyle="primary" className="nextButton" onClick={()=>this.changeMoveDay(1)}>Next day</Button>
                 </div>
                 <div style={daysInBoard === 7 ? {} : {display: 'none'}}>
                     <Button bsStyle="primary" className="prevButton" onClick={()=>this.changeMoveDay(-7)}>Prev week</Button>

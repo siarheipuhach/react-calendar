@@ -8,11 +8,11 @@ export default class DayEvents extends Component {
 
     findIntersectionNumber = (event) => {
         let intersections = 0;
-
-        Object.keys(this.props.currentDayEvents).map(
+        const { currentDayEvents } = this.props;
+        Object.keys(currentDayEvents).map(
             (key) => {
                 if (key < event['startDate']){
-                    this.props.currentDayEvents[key].map(previousEvent => {
+                    currentDayEvents[key].map(previousEvent => {
                         if (previousEvent['endDate'] > event['startDate']){
                             intersections += 1;
                         }

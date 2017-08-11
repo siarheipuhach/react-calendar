@@ -2,6 +2,8 @@ import React from 'react'
 import { Field, reduxForm } from 'redux-form'
 import DateTimePicker from 'react-widgets/lib/DateTimePicker'
 import momentLocalizer from 'react-widgets/lib/localizers/moment';
+import 'react-widgets/dist/css/react-widgets.css';
+
 import moment from 'moment';
 import './EventForm.css';
 import { Button } from 'react-bootstrap';
